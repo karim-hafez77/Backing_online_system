@@ -6,6 +6,10 @@
 #include "QVBoxLayout"
 #include <QtWidgets>
 #include "widget_size.h"
+//#include"mainwindow.h"
+#include <QLineEdit>
+#include <iostream>
+using namespace std;
 class login : public QWidget
 {
     Q_OBJECT
@@ -15,7 +19,6 @@ public:
     QGroupBox *login_groupbox = new QGroupBox("Login");
 
     QVBoxLayout * vbox=new QVBoxLayout;
-
     QHBoxLayout * hbox1=new QHBoxLayout;
     QHBoxLayout * hbox2=new QHBoxLayout;
     QHBoxLayout * hbox3=new QHBoxLayout;
@@ -23,17 +26,21 @@ public:
 
     QPushButton * sign_in_button =new QPushButton("Login");
 
-    QTextEdit * t_account_id = new QTextEdit("enter account id");
-    QTextEdit * t_password = new QTextEdit("enter password");
+    QTextEdit * t_account_id = new QTextEdit(this);
+
+//    t_account_id->setPlaceholderText("awq");
+    QTextEdit * t_password = new QTextEdit("enter ");
 
     QLabel * l_account_id = new QLabel("Account ID");
     QLabel * l_password=new QLabel("Password");
     QLabel * l_test = new QLabel("");
 
+    void connect_function(void);
 
 
-private:
-static void connectfun();
+private slots:
+
+    void on_sign_in_button_clicked();
 };
 
 #endif // LOGIN_H

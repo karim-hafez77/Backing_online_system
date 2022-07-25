@@ -46,15 +46,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainW
 //    //create new account groupbox layout control
 //    create_new_account->setLayout(create_account_inner_mainlayout);
 
+
     //outer window layout control
 //    mainlayout->addLayout(vertical_layout_control);
 
-    mainlayout->addWidget(login1);
+    mainlayout->addWidget(login2);
+    login2->connect_function();
     widget->setLayout(mainlayout);
     widget->show();
 
     setCentralWidget(widget);
-    connect_function();
+//    connect_function();
 }
 
 MainWindow::~MainWindow()

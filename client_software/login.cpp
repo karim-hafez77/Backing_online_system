@@ -11,7 +11,7 @@ login::login(QWidget *parent) : QWidget{parent}
 
     l_password->setFixedSize(label_SIZE);
     t_password->setFixedSize(text_SIZE);
-    t_password->overwriteMode(true);
+    t_password->overwriteMode();
     hbox2->addWidget(l_password);
     hbox2->addWidget(t_password);
     hbox2->setAlignment(Qt::AlignLeft);
@@ -27,15 +27,23 @@ login::login(QWidget *parent) : QWidget{parent}
     vbox->addLayout(hbox4);
 
 
-
     login_groupbox->setLayout(vbox);
     main_layout->addWidget(login_groupbox, 0, 0, 1, 1 );
     setLayout(main_layout);
 
+
 }
 
-void login::connectfun()
+void login::connect_function(void)
 {
-//    connect(this->t_password,SIGNAL(clicked)),this,SLOT(clear());
+    connect(sign_in_button,SIGNAL(clicked()),this,SLOT(on_sign_in_button_clicked()));
+
+}
+
+
+void login::on_sign_in_button_clicked()
+{
+   QString x= t_account_id->toPlainText();
+   t_password->setText(x);
 }
 

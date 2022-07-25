@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(client_software VERSION 0.1 LANGUAGES CXX)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -24,7 +25,9 @@ set(PROJECT_SOURCES
         login.cpp
         login.h
         widget_size.h
-
+        ../utility/serialization.hpp
+        client_socket.cpp
+        client_socket.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

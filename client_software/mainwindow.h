@@ -37,7 +37,7 @@ private:
 //    QGroupBox *Transactions = new QGroupBox("Transactions", this);
     //create new account boxes
     transaction * t=new transaction();
-    login * login1 = new login();
+    login * login2 = new login();
     QHBoxLayout * inner_vertical_layout_control_submit_button=new QHBoxLayout  ;
 
     QHBoxLayout * horizontal_layout_control=new QHBoxLayout  ;

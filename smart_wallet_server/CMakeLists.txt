@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(smart_wallet_server VERSION 0.1 LANGUAGES CXX)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -22,6 +24,8 @@ set(PROJECT_SOURCES
         smart_wallet_server.cpp
         smart_wallet_server.h
         common_includes.h
+        server_socket.cpp
+        server_socket.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

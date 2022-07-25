@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "common_includes.h"
+#include "QThread"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,6 +18,8 @@ public:
     ~MainWindow();
     QWidget *widget =new QWidget ;
     QVBoxLayout *mainlayout=new QVBoxLayout;
+    void create_server();
+    server_socket * s=new server_socket();
 
 private:
     Ui::MainWindow *ui;

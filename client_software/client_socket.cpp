@@ -1,6 +1,6 @@
 #include "client_socket.h"
 
-client_socket::client_socket(int port,string ip ="127.0.0.1"):port_num(port),ip(ip),io_service(),socket_(io_service){}
+client_socket::client_socket(int port,string ip ):port_num(port),ip(ip),io_service(),socket_(io_service){}
 
 client_socket::~client_socket()
 {
@@ -11,6 +11,8 @@ void client_socket::connect_to_socket()
 {
     try {
         socket_.connect(tcp::endpoint(boost::asio::ip::address::from_string(ip), port_num));
+        std::cout<<"connect to socket : " <<endl;
+
     }
     catch ( boost::system::system_error e)
     {

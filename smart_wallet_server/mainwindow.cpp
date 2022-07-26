@@ -11,8 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     mainlayout->addWidget(s);
     widget->setLayout(mainlayout);
     widget->show();
-
     setCentralWidget(widget);
+    create_server();
+
 }
 
 MainWindow::~MainWindow()
@@ -22,32 +23,32 @@ MainWindow::~MainWindow()
 
 void MainWindow::create_server()
 {
-    s->create_server();
-    auto new_socket = this->s->listen_l();
-    auto name = this->s->recieve_data();
+    QThread::create([this]{
+        while(1)
+        {
+            cout<<"thread created"<<endl;
+            auto new_socket = s->listen_l();
+            QThread::create([this,new_socket]()
+            {
+                while(1)
+                {
+                    TransferDataInput t1;
+                    auto data =s->recieve_data(new_socket);
+                    Deserializer dsel;
+                    dsel.deserialize(data ,t1);
+                    std::cout<<t1.id<<endl;
+                    std::cout.flush();
+                    std::cout<<t1.data<<endl;
+                    std::cout.flush();
+                    std::cout<<t1.blockCounter<<endl;
+                    std::cout.flush();
 
-//    QThread::create([this]{
-//        while(1)
-//        {
-//            cout<<"thread created"<<endl;
-//            QThread::create([this,new_socket]()
-//            {
-//                while(1)
-//                {
-//                    if(this->s->recive_file(new_socket,name)){
-//                        choose_handler(name);
-//                        usleep(100);
-//                    }
-//                    else
-//                    {
-//                        cout<<"socket closed"<<endl;
-//                        cout<<name<<endl;
-//                        new_socket->close();
-//                        delete new_socket;
-//                        break;
-//                    }
-//                }
-//            })->start();
-//        }
-//    })->start();
+
+
+
+                }
+            })->start();
+        }
+    })->start();
 }
+

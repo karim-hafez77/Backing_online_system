@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Boost 1.50 COMPONENTS serialization REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -26,6 +27,7 @@ set(PROJECT_SOURCES
         common_includes.h
         server_socket.cpp
         server_socket.h
+        ../utility/serialization.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -51,7 +53,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(smart_wallet_server PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(smart_wallet_server PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Boost::serialization)
 
 set_target_properties(smart_wallet_server PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

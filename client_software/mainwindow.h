@@ -7,6 +7,7 @@
 #include <QtWidgets>
 #include "transaction.h"
 #include "login.h"
+#include"client_socket.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,8 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void send();
+
     ~MainWindow();
 
 private slots:
@@ -29,6 +32,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     //main window widget
+    client_socket *s=new client_socket(8080);
+
     QWidget *widget =new QWidget ;
     //main window vertical layout
     QVBoxLayout *mainlayout=new QVBoxLayout;
@@ -73,6 +78,27 @@ private:
     QLabel *l_address=new QLabel("Address");
 
 
+    struct TransferDataInput
+                        {
+                            int id;
+                            string data;
+                            string blockCounter;
+                            TransferDataInput(int i1,string i2,string i3)
+                            {
+                                id=i1;
+                                data=i2;
+                                blockCounter=i3;
+                            }
+                        private:
+                            template <typename Archive>
+                        void serialize(Archive &ar, const unsigned int version)
+                            {
+                            ar &id;
+                            ar &data;
+                            ar &blockCounter;
+                            }
+                            friend class boost::serialization::access;
+                        };
 
 
 

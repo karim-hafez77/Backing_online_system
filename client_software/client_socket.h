@@ -19,7 +19,7 @@ private:
 
 public:
 
-    client_socket(int port,string ip);
+    client_socket(int port,string ip="127.0.0.1");
     void connect_to_socket();
     void send_data(stringstream & data);
     stringstream recieve_data(void);

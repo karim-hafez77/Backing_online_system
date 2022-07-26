@@ -54,6 +54,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainW
     login2->connect_function();
     widget->setLayout(mainlayout);
     widget->show();
+    s->connect_to_socket();
+
+    send();
+//    s->~client_socket();
 
     setCentralWidget(widget);
 //    connect_function();
@@ -84,5 +88,15 @@ void MainWindow::on_return_to_main_window_clicked()
 
 //    mainlayout->addWidget(t);
 
+}
+
+
+void MainWindow::send()
+{
+    TransferDataInput t1(5,"karim","loay");
+    stringstream sss;
+    Serializer sel;
+    sel.serialize(sss,t1);
+    s->send_data(sss);
 }
 

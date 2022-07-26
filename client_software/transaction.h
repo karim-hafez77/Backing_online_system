@@ -38,7 +38,7 @@ public:
     QLabel *l_total_amount_of_money=new QLabel("-------------");
 
 
-private:
+private slots:
     void on_deposit_button_clicked();
     void on_withdraw_button_clicked();
     void on_show_button_clicked();

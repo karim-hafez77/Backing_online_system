@@ -1,7 +1,9 @@
 #ifndef WIDGET_SIZE_H
 #define WIDGET_SIZE_H
+
 #include"QLabel"
 #include"QVBoxLayout"
+#include "mainwindow.h"
 #include <QtWidgets>
 #include"../utility/serialization.hpp"
 const QSize label_SIZE = QSize(120, 28);

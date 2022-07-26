@@ -29,6 +29,10 @@ set(PROJECT_SOURCES
         ../utility/serialization.hpp
         client_socket.cpp
         client_socket.h
+        create_new_account.cpp
+        create_new_account.h
+        control_window.cpp
+        control_window.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

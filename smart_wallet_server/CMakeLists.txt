@@ -28,6 +28,9 @@ set(PROJECT_SOURCES
         server_socket.cpp
         server_socket.h
         ../utility/serialization.hpp
+        ../utility/classes.cpp
+        ../utility/classes.hpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -6,6 +6,7 @@
 #include "QLabel"
 #include "QVBoxLayout"
 #include <QtWidgets>
+#include "widget_size.h"
 
 class create_new_account : public QWidget
 {
@@ -44,7 +45,11 @@ public:
         QLabel *l_id=new QLabel("National_Id");
         QLabel *l_address=new QLabel("Address");
 
-signals:
+
+private slots:
+        void read_data();
+
+
 
 };
 

@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "smart_wallet_server.h"
-
+#include "common_includes.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,20 +32,17 @@ void MainWindow::create_server()
             {
                 while(1)
                 {
-                    TransferDataInput t1;
+                    AccountData AD;
                     auto data =s->recieve_data(new_socket);
                     Deserializer dsel;
-                    dsel.deserialize(data ,t1);
-                    std::cout<<t1.id<<endl;
-                    std::cout.flush();
-                    std::cout<<t1.data<<endl;
-                    std::cout.flush();
-                    std::cout<<t1.blockCounter<<endl;
-                    std::cout.flush();
-
-
-
-
+                    Serializer sel;
+                    stringstream st;
+                    dsel.deserialize(data ,AD);
+                    person p(AD.name,AD.national_id,AD.address,AD.age);
+                    account a(p,"zzzzzz");
+                    v1.push_back(a);
+                    sel.serialize(st,a.account_id);
+                    s->send_data(st,new_socket);
                 }
             })->start();
         }

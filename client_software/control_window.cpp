@@ -10,11 +10,9 @@ hbox1->addWidget(Transactions_button);
 vbox->addLayout(hbox1);
 vbox->setAlignment(Qt::AlignCenter);
 control_window_groupbox->setLayout(vbox);
-
 main_layout->addWidget(control_window_groupbox,0,0,1,1);
 setLayout(main_layout);
 connect(Create_New_Account_button,SIGNAL(clicked()),this,SLOT(on_Create_New_Account_clicked));
-connect(Transactions_button,SIGNAL(clicked()),this,SLOT(MainWindow::on_submit_button_clicked));
 }
 void control_window::on_Create_New_Account_clicked()
 {

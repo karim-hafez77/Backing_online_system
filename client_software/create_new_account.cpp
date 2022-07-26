@@ -48,3 +48,11 @@ create_new_account::create_new_account(QWidget *parent)
 
         //outer window layout control
 }
+
+void create_new_account::read_data()
+{
+
+
+
+}
+

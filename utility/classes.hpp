@@ -25,7 +25,7 @@ private:
 
 public:
     person p;
-    long long account_id;
+    int account_id;
     float balance;
     string password;
     account(person input_person,string input_password,float input_balance=0);

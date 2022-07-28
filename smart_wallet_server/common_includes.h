@@ -71,12 +71,12 @@ struct AccountData
                     };
 struct login_info
                     {
-                     string account_id;
+                     long long account_id;
                      string password;
 
                      login_info(){}
 
-                     login_info(string input_account_id,string input_password)
+                     login_info(long long input_account_id,string input_password)
                         {
                             account_id=input_account_id;
                             password=input_password;

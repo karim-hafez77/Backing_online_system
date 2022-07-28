@@ -33,6 +33,7 @@ void MainWindow::create_server()
                 while(1)
                 {
                     AccountData AD;
+                    login_info LI;
                     message_type recived_message;
                     auto data =s->recieve_data(new_socket);
                     Deserializer dsel;
@@ -51,9 +52,26 @@ void MainWindow::create_server()
                         sel.serialize(st,a.account_id);
                         s->send_data(st,new_socket);
                     }
-                    else {
-                        std::cout<<"sssssssssssssssssss"<<endl;
-                        std::cout.flush();
+                    else if(recived_message.message_name=="login_message"){
+                        st_message<<recived_message.message;
+                        dsel.deserialize(st_message ,LI);
+                        string check_account_id=LI.account_id;
+                        string check_account_password=LI.password;
+                        bool check_result;
+                        check_result = false;
+                        for(auto &x: v1)
+                        {
+                            if(x.account_id==check_account_id)
+                            {
+                                if(x.password == check_account_password)
+                                {
+                                    check_result = true;
+                                }
+                            }
+                        }
+
+                        sel.serialize(st,check_result);
+                        s->send_data(st,new_socket);
                     }
 
                 }

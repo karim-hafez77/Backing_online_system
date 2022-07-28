@@ -69,16 +69,21 @@ void MainWindow::on_login_button_clicked()
     login_info LI(account_id,account_password);
     Serializer sel;
     Deserializer dsel;
-    stringstream st;
-    sel.serialize(st,LI);
-    socket1->send_data(st);
+    stringstream st_login_info;
+    stringstream st_message;
+    sel.serialize(st_login_info,LI);
+    string x=st_login_info.str();
+    message_type message(login_message,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
 
 
-    auto data =socket1->recieve_data();
-    string response;
-    dsel.deserialize(data ,response);
-    std::cout<<"acoount id : "<<response;
-    std::cout.flush();
+
+//    auto data =socket1->recieve_data();
+//    string response;
+//    dsel.deserialize(data ,response);
+//    std::cout<<"acoount id : "<<response;
+//    std::cout.flush();
 
 //MainWindow::go_to_transaction_page();
 }
@@ -141,8 +146,6 @@ void MainWindow::on_submit_button_clicked()
      string x=st_account_data.str();
      message_type message(create_account_message,x);
      sel.serialize(st_message,message);
-     std::cout<<st_message.str();
-     std::cout.flush();
      socket1->send_data(st_message);
      auto data =socket1->recieve_data();
      long long id;

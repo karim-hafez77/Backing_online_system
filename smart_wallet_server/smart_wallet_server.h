@@ -36,7 +36,8 @@ public:
     QLabel * l_address_value=new QLabel("---------");
     QLabel * l_total_amount_of_money_value=new QLabel("---------");
 
-    QTextEdit * Transactions_log = new QTextEdit();
+    QTextBrowser * Transactions_log=new QTextBrowser();
+
 
 
 signals:

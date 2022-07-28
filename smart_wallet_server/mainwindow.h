@@ -16,14 +16,14 @@ class MainWindow : public QMainWindow
 
 public:
     vector<account> v1;
-
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *widget =new QWidget ;
     QVBoxLayout *mainlayout=new QVBoxLayout;
-    void create_server();
+    smart_wallet_server * sws=new smart_wallet_server();
     server_socket * s=new server_socket(8080);
-
+    void create_server();
+    void access_account(account a);
 
 
 private:

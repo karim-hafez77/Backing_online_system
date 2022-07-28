@@ -1,18 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "smart_wallet_server.h"
 #include "common_includes.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    smart_wallet_server * s=new smart_wallet_server();
-    mainlayout->addWidget(s);
+    mainlayout->addWidget(sws);
     widget->setLayout(mainlayout);
     widget->show();
     setCentralWidget(widget);
     create_server();
+    person p("karim","123","address",23);
+    account a(p,"a");
+    a.account_id=123;
+    v1.push_back(a);
 
 }
 
@@ -41,7 +43,8 @@ void MainWindow::create_server()
                     stringstream st;
                     stringstream st_message;
                     dsel.deserialize(data ,recived_message);
-                    if(recived_message.message_name=="create_new_account"){
+                    if(recived_message.message_name=="create_new_account")
+                    {
                         st_message<<recived_message.message;
                         dsel.deserialize(st_message ,AD);
                         person p(AD.name,AD.national_id,AD.address,AD.age);
@@ -52,13 +55,15 @@ void MainWindow::create_server()
                         sel.serialize(st,a.account_id);
                         s->send_data(st,new_socket);
                     }
-                    else if(recived_message.message_name=="login_message"){
+                    else if(recived_message.message_name=="login_message")
+                    {
                         st_message<<recived_message.message;
                         dsel.deserialize(st_message ,LI);
-                        string check_account_id=LI.account_id;
+                        int check_account_id=LI.account_id;
                         string check_account_password=LI.password;
                         bool check_result;
                         check_result = false;
+                        account result_account;
                         for(auto &x: v1)
                         {
                             if(x.account_id==check_account_id)
@@ -66,17 +71,35 @@ void MainWindow::create_server()
                                 if(x.password == check_account_password)
                                 {
                                     check_result = true;
+                                    result_account=x;
                                 }
                             }
                         }
-
                         sel.serialize(st,check_result);
                         s->send_data(st,new_socket);
+                        if(check_result)
+                        {
+                            access_account(result_account);
+                        }
                     }
+
 
                 }
             })->start();
         }
     })->start();
+}
+
+void MainWindow::access_account(account a)
+{
+    std::cout<<"account id: "<<a.account_id<<endl;
+    std::cout.flush();
+    sws->l_account_no_value->setText(QString::number(a.account_id));
+    sws->l_age_value->setText(QString::number(a.p.age));
+    sws->l_name_value->setText( QString::fromStdString(a.p.name));
+    sws->l_national_id_value->setText( QString::fromStdString(a.p.national_id));
+    sws->l_total_amount_of_money_value->setText(QString::number(a.balance));
+    sws->l_address_value->setText(QString::fromStdString(a.p.address));
+
 }
 

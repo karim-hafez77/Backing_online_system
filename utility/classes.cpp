@@ -9,6 +9,7 @@ person::~person()
 }
 
 person::person(){}
+account::account(){}
 
 account::account(person input_person,  string input_password,float input_balance):p(input_person),balance(input_balance),password(input_password)
 {
@@ -18,13 +19,3 @@ account::account(person input_person,  string input_password,float input_balance
 
 account::~account() {}
 
-int main()
-{
-    person p1("karim","aaaaaaaaaaaaaaaaaaaa","bbbbbbbbbb",23);
-    account a1(p1 ,"zzzzzzzzzzzzz");
-    cout<<a1.account_id<<endl;
-        cout<<a1.account_id<<endl;
-    cout<<a1.account_id<<endl;
-    cout<<a1.account_id<<endl;
-
-}

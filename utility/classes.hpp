@@ -2,6 +2,7 @@
 #include "string"
 #include <cstdlib>
 #include <time.h>
+#include "string"
 using namespace std;
 
 class person
@@ -28,6 +29,7 @@ public:
     int account_id;
     float balance;
     string password;
+    account();
     account(person input_person,string input_password,float input_balance=0);
 
     ~account();

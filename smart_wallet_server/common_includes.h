@@ -17,6 +17,8 @@
 #include "../utility/serialization.hpp"
 #include "../utility/classes.hpp"
 #include "vector"
+#include "smart_wallet_server.h"
+
 
 const QSize label_SIZE = QSize(120, 28);
 const QSize text_SIZE = QSize(350, 28);
@@ -71,12 +73,12 @@ struct AccountData
                     };
 struct login_info
                     {
-                     long long account_id;
+                     int account_id;
                      string password;
 
                      login_info(){}
 
-                     login_info(long long input_account_id,string input_password)
+                     login_info(int input_account_id,string input_password)
                         {
                             account_id=input_account_id;
                             password=input_password;

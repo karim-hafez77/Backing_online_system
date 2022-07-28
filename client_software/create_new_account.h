@@ -24,6 +24,9 @@ public:
         QHBoxLayout * inner_horizontal_layout_control_age=new QHBoxLayout  ;
         QHBoxLayout * inner_horizontal_layout_control_id=new QHBoxLayout  ;
         QHBoxLayout * inner_horizontal_layout_control_address=new QHBoxLayout  ;
+        QHBoxLayout * inner_horizontal_layout_control_password=new QHBoxLayout  ;
+        QHBoxLayout * inner_horizontal_layout_control_confirm_password=new QHBoxLayout  ;
+        QHBoxLayout * inner_horizontal_layout_control_account_id=new QHBoxLayout  ;
 
 
         //main window vertical layout
@@ -38,13 +41,18 @@ public:
         QTextEdit * t_age= new QTextEdit();
         QTextEdit * t_id = new QTextEdit();
         QTextEdit * t_address = new QTextEdit();
+        QTextEdit * t_password = new QTextEdit();
+        QTextEdit * t_confirm_password = new QTextEdit();
 
-        QLabel *l=new QLabel("Name");
         QLabel *l_name=new QLabel("Name");
         QLabel *l_age=new QLabel("Age");
         QLabel *l_id=new QLabel("National_Id");
         QLabel *l_address=new QLabel("Address");
+        QLabel *l_password=new QLabel("Password");
+        QLabel *l_confirm_password=new QLabel("Confirm Password");
+        QLabel *l_account_id=new QLabel("Account ID");
 
+        QTextBrowser * tb_account_id=new QTextBrowser();
 
 private slots:
         void read_data();

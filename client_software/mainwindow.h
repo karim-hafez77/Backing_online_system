@@ -52,6 +52,8 @@ private:
     login * login2 = new login();
     create_new_account *c =new create_new_account();
     control_window * cw = new control_window();
+    string create_account_message ="create_new_account";
+    string login_message ="login_message";
 
 
 

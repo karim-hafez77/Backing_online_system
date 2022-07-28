@@ -11,8 +11,14 @@ create_new_account::create_new_account(QWidget *parent)
         l_address->setFixedSize(label_SIZE);
         t_id->setFixedSize(text_SIZE);
         l_id->setFixedSize(label_SIZE);
+        l_password->setFixedSize(label_SIZE);
+        l_confirm_password->setFixedSize(label_SIZE);
+        t_password->setFixedSize(text_SIZE);
+        t_confirm_password->setFixedSize(text_SIZE);
+        tb_account_id->setFixedSize(text_SIZE);
         submit_button->setFixedSize(button_SIZE);
         return_to_main_window->setFixedSize(button_SIZE);
+        l_account_id->setFixedSize(label_SIZE);
 
 
         inner_horizontal_layout_control_name->addWidget(l_name);
@@ -33,12 +39,28 @@ create_new_account::create_new_account(QWidget *parent)
         inner_horizontal_layout_control_buttons->addWidget(return_to_main_window);
         inner_horizontal_layout_control_buttons->setAlignment(Qt::AlignRight);
 
+        inner_horizontal_layout_control_password->addWidget(l_password);
+        inner_horizontal_layout_control_password->addWidget(t_password);
+
+        inner_horizontal_layout_control_confirm_password->addWidget(l_confirm_password);
+        inner_horizontal_layout_control_confirm_password->addWidget(t_confirm_password);
+
+        inner_horizontal_layout_control_account_id->addWidget(l_account_id);
+        inner_horizontal_layout_control_account_id->addWidget(tb_account_id);
+
         create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_name);
         create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_age);
         create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_id);
         create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_address);
+        create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_password);
+        create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_confirm_password);
+        create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_account_id);
+        tb_account_id->hide();
+        l_account_id->hide();
         create_account_inner_mainlayout->addLayout(inner_horizontal_layout_control_buttons);
 
+
+//        create_account_inner_mainlayout->setAlignment(Qt::AlignCenter);
 
         //create new account groupbox layout control
         create_new_account_groupbox->setLayout(create_account_inner_mainlayout);

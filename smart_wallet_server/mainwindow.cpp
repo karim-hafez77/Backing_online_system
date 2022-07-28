@@ -33,16 +33,29 @@ void MainWindow::create_server()
                 while(1)
                 {
                     AccountData AD;
+                    message_type recived_message;
                     auto data =s->recieve_data(new_socket);
                     Deserializer dsel;
                     Serializer sel;
                     stringstream st;
-                    dsel.deserialize(data ,AD);
-                    person p(AD.name,AD.national_id,AD.address,AD.age);
-                    account a(p,"zzzzzz");
-                    v1.push_back(a);
-                    sel.serialize(st,a.account_id);
-                    s->send_data(st,new_socket);
+                    stringstream st_message;
+                    dsel.deserialize(data ,recived_message);
+                    if(recived_message.message_name=="create_new_account"){
+                        st_message<<recived_message.message;
+                        dsel.deserialize(st_message ,AD);
+                        person p(AD.name,AD.national_id,AD.address,AD.age);
+                        account a(p,AD.password);
+                        std::cout<<a.password;
+                        std::cout.flush();
+                        v1.push_back(a);
+                        sel.serialize(st,a.account_id);
+                        s->send_data(st,new_socket);
+                    }
+                    else {
+                        std::cout<<"sssssssssssssssssss"<<endl;
+                        std::cout.flush();
+                    }
+
                 }
             })->start();
         }

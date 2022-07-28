@@ -6,9 +6,10 @@
 #include "QVBoxLayout"
 #include <QtWidgets>
 #include "widget_size.h"
-//#include"mainwindow.h"
 #include <QLineEdit>
 #include <iostream>
+#include <QTextEdit>
+
 using namespace std;
 class login : public QWidget
 {
@@ -26,10 +27,11 @@ public:
 
     QPushButton * sign_in_button =new QPushButton("Login");
 
-    QTextEdit * t_account_id = new QTextEdit(this);
+    QTextEdit * t_account_id = new QTextEdit();
+    QTextEdit * t_password = new QTextEdit();
+    bool t=true;
 
 //    t_account_id->setPlaceholderText("awq");
-    QTextEdit * t_password = new QTextEdit("enter ");
 
     QLabel * l_account_id = new QLabel("Account ID");
     QLabel * l_password=new QLabel("Password");

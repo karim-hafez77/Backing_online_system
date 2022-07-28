@@ -11,7 +11,9 @@ login::login(QWidget *parent) : QWidget{parent}
 
     l_password->setFixedSize(label_SIZE);
     t_password->setFixedSize(text_SIZE);
-    t_password->overwriteMode();
+    t_password->setPlaceholderText("Enter Password");
+    t_account_id->setPlaceholderText("Enter account id");
+
     hbox2->addWidget(l_password);
     hbox2->addWidget(t_password);
     hbox2->setAlignment(Qt::AlignLeft);
@@ -36,7 +38,6 @@ login::login(QWidget *parent) : QWidget{parent}
 
 void login::connect_function(void)
 {
-    connect(sign_in_button,SIGNAL(clicked()),this,SLOT(on_sign_in_button_clicked()));
 
 }
 

@@ -39,7 +39,6 @@ void MainWindow::connect_function()
 //    connect(c->submit_button,SIGNAL(clicked()),c,SLOT(read_data()));
     connect(c->submit_button,SIGNAL(clicked()),this,SLOT(on_submit_button_clicked()));
 
-
 }
 
 void MainWindow::on_transaction_button_clicked()
@@ -63,18 +62,31 @@ void MainWindow::on_return_to_main_window_button_transaction_clicked()
     t->hide();
     cw->show();
 }
-
 void MainWindow::on_login_button_clicked()
 {
-MainWindow::go_to_transaction_page();
-}
+    string account_id=login2->t_account_id->toPlainText().toStdString();
+    string account_password=login2->t_password->toPlainText().toStdString();
+    login_info LI(account_id,account_password);
+    Serializer sel;
+    Deserializer dsel;
+    stringstream st;
+    sel.serialize(st,LI);
+    socket1->send_data(st);
 
+
+    auto data =socket1->recieve_data();
+    string response;
+    dsel.deserialize(data ,response);
+    std::cout<<"acoount id : "<<response;
+    std::cout.flush();
+
+//MainWindow::go_to_transaction_page();
+}
 void MainWindow::go_to_transaction_page()
 {
     login2->hide();
     t->show();
 }
-
 void MainWindow::on_submit_button_clicked()
 {
 
@@ -84,6 +96,8 @@ void MainWindow::on_submit_button_clicked()
     int age = user_age.toInt();
     string user_id=c->t_id->toPlainText().toStdString();
     string user_address=c->t_address->toPlainText().toStdString();
+    string account_password=c->t_password->toPlainText().toStdString();
+    string account_confirm_password=c->t_confirm_password->toPlainText().toStdString();
 
     for(auto &x:user_id )
     {
@@ -94,7 +108,12 @@ void MainWindow::on_submit_button_clicked()
         }
     }
 
+    if(user_address==""||user_name==""||user_age==""||user_id==""||account_password==""||account_confirm_password==""){check=false;}
     if((age<0) || (age>150))
+    {
+        check=false;
+    }
+    if(account_password !=account_confirm_password)
     {
         check=false;
     }
@@ -105,22 +124,33 @@ void MainWindow::on_submit_button_clicked()
         c->t_id->setText("error");
         c->t_age->setText("error");
         c->t_address->setText("error");
+        c->t_password->setText("error");
+        c->t_confirm_password->setText("error");
+        c->tb_account_id->hide();
+        c->l_account_id->hide();
+
     }
     else
     {
-     AccountData AD(user_name,age,user_id,user_address);
+     AccountData AD(user_name,age,user_id,user_address,account_password);
      Serializer sel;
      Deserializer dsel;
-     stringstream st;
-     sel.serialize(st,AD);
-     socket1->send_data(st);
-
-
+     stringstream st_message;
+     stringstream st_account_data;
+     sel.serialize(st_account_data,AD);
+     string x=st_account_data.str();
+     message_type message(create_account_message,x);
+     sel.serialize(st_message,message);
+     std::cout<<st_message.str();
+     std::cout.flush();
+     socket1->send_data(st_message);
      auto data =socket1->recieve_data();
      long long id;
      dsel.deserialize(data ,id);
-     std::cout<<"acoount id : "<<id;
-     std::cout.flush();
+     c->tb_account_id->setText(QString::number(id));
+     c->tb_account_id->show();
+     c->l_account_id->show();
+
     }
 
 

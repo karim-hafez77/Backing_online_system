@@ -8,14 +8,25 @@ person::~person()
 {
 }
 
-person::person(){}
-account::account(){}
+person::person() {}
+account::account() {}
 
-account::account(person input_person,  string input_password,float input_balance):p(input_person),balance(input_balance),password(input_password)
+account::account(person input_person,string input_password): p(input_person), password(input_password)
 {
     srand(time(0));
-    account_id=rand();
+    account_id = rand();
 }
 
 account::~account() {}
-
+void account::deposit(float input_amount)
+{
+    this->balance += input_amount;
+}
+void account::withdraw(float output_amount)
+{
+    balance -= output_amount;
+}
+float account::show_account_balance(void)
+{
+    return balance;
+}

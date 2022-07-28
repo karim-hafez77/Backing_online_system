@@ -27,10 +27,13 @@ private:
 public:
     person p;
     int account_id;
-    float balance;
+    float balance=0;
     string password;
     account();
-    account(person input_person,string input_password,float input_balance=0);
+    account(person input_person,string input_password);
+    void deposit(float input_amount);
+    float show_account_balance(void);
+    void withdraw(float output_amount);
 
     ~account();
 };

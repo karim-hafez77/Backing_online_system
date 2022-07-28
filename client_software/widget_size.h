@@ -88,4 +88,26 @@ struct login_info
                         }
                         friend class boost::serialization::access;
                     };
+struct s_transaction
+                    {
+                     int account_id;
+                     float amount_of_money;
+
+                     s_transaction(){}
+
+                     s_transaction(int input_account_id,float input_amount_of_money)
+                        {
+                            account_id=input_account_id;
+                            amount_of_money=input_amount_of_money;
+                        }
+                    private:
+                        template <typename Archive>
+                    void serialize(Archive &ar, const unsigned int version)
+                        {
+                        ar &account_id;
+                        ar &amount_of_money;
+
+                        }
+                        friend class boost::serialization::access;
+                    };
 #endif // WIDGET_SIZE_H

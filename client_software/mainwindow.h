@@ -36,7 +36,10 @@ private slots:
     void on_return_to_main_window_button_create_clicked();
     void on_return_to_main_window_button_transaction_clicked();
     void on_login_button_clicked();
-    void go_to_transaction_page();
+    void go_to_transaction_page(int account_id);
+    void on_deposit_button_clicked();
+    void on_withdraw_button_clicked();
+    void on_show_button_clicked();
 
 
 
@@ -54,6 +57,8 @@ private:
     control_window * cw = new control_window();
     string create_account_message ="create_new_account";
     string login_message ="login_message";
+    string withdraw_message ="withdraw_message";
+    string deposit_message ="deposit_message";
 
 
 

@@ -38,6 +38,11 @@ void MainWindow::connect_function()
     connect(login2->sign_in_button,SIGNAL(clicked()),this,SLOT(on_login_button_clicked()));
 //    connect(c->submit_button,SIGNAL(clicked()),c,SLOT(read_data()));
     connect(c->submit_button,SIGNAL(clicked()),this,SLOT(on_submit_button_clicked()));
+    connect(t->deposit_button,SIGNAL(clicked()),this,SLOT(on_deposit_button_clicked()));
+    connect(t->withdraw_button,SIGNAL(clicked()),this,SLOT(on_withdraw_button_clicked()));
+    connect(t->show_button,SIGNAL(clicked()),this,SLOT(on_show_button_clicked()));
+
+
 
 }
 
@@ -76,27 +81,27 @@ void MainWindow::on_login_button_clicked()
     message_type message(login_message,x);
     sel.serialize(st_message,message);
     socket1->send_data(st_message);
-
-
-
     auto data =socket1->recieve_data();
     bool response;
     dsel.deserialize(data ,response);
     std::cout<<"response : "<<response;
     std::cout.flush();
     if(response)
-        MainWindow::go_to_transaction_page();
+    {
+        MainWindow::go_to_transaction_page(account_id);
+    }
     else
     {
-        login2->t_account_id->setText("error");
-        login2->t_password->setText("error");
+        login2->t_account_id->setText("error account not found");
+        login2->t_password->setText("error account not found");
     }
 
 }
-void MainWindow::go_to_transaction_page()
+void MainWindow::go_to_transaction_page(int account_id)
 {
     login2->hide();
     t->show();
+    t->l_account_id->setText(QString::number(account_id));
 }
 void MainWindow::on_submit_button_clicked()
 {
@@ -176,3 +181,28 @@ void MainWindow::send()
 //    s->send_data(sss);
 }
 
+void MainWindow::on_deposit_button_clicked()
+{
+    float input_amount=t->t_deposit->toPlainText().toFloat();
+    int accessed_account_id=t->l_account_id->text().toInt();
+    s_transaction trans(accessed_account_id,input_amount);
+    Serializer sel;
+    Deserializer dsel;
+    stringstream st_stransaction;
+    stringstream st_message;
+    sel.serialize(st_stransaction,trans);
+    string x=st_stransaction.str();
+    message_type message(deposit_message,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
+
+
+}
+void MainWindow::on_withdraw_button_clicked()
+{
+
+}
+void MainWindow::on_show_button_clicked()
+{
+
+}

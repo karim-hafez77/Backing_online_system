@@ -10,11 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     widget->setLayout(mainlayout);
     widget->show();
     setCentralWidget(widget);
-    create_server();
     person p("karim","123","address",23);
     account a(p,"a");
     a.account_id=123;
     v1.push_back(a);
+    create_server();
+
 
 }
 
@@ -36,7 +37,9 @@ void MainWindow::create_server()
                 {
                     AccountData AD;
                     login_info LI;
+                    s_transaction trans;
                     message_type recived_message;
+                    float amount_of_money;
                     auto data =s->recieve_data(new_socket);
                     Deserializer dsel;
                     Serializer sel;
@@ -82,6 +85,31 @@ void MainWindow::create_server()
                             access_account(result_account);
                         }
                     }
+
+                    else if(recived_message.message_name=="deposit_message")
+                    {
+                        st_message<<recived_message.message;
+                        dsel.deserialize(st_message ,trans);
+                        int account_id=trans.account_id;
+                        amount_of_money=trans.amount_of_money;
+                        std::cout<<"account id : "<<account_id<<endl;
+                        std::cout.flush();
+                        std::cout<<"amount : "<<amount_of_money<<endl;
+                        std::cout.flush();
+
+                        for (auto &x:v1)
+                        {
+                            if(x.account_id==account_id)
+                            {
+                                x.balance+=amount_of_money;
+//                                x.deposit(amount_of_money);
+                                std::cout<<"x balance : "<<x.balance<<endl;
+                                std::cout.flush();
+                                sws->l_total_amount_of_money_value->setText(QString::number(x.balance));
+                            }
+                        }
+
+                     }
 
 
                 }

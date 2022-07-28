@@ -26,6 +26,7 @@ public:
     void access_account(account a);
 
 
+
 private:
     Ui::MainWindow *ui;
 };

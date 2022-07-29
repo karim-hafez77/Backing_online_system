@@ -8,7 +8,7 @@ login::login(QWidget *parent) : QWidget{parent}
     hbox1->addWidget(t_account_id);
     hbox1->setAlignment(Qt::AlignLeft);
     vbox->addLayout(hbox1);
-
+    t_password->setEchoMode(QLineEdit::Password);
     l_password->setFixedSize(label_SIZE);
     t_password->setFixedSize(text_SIZE);
     t_password->setPlaceholderText("Enter Password");
@@ -21,6 +21,7 @@ login::login(QWidget *parent) : QWidget{parent}
 
     sign_in_button->setFixedSize(button_SIZE);
     hbox3->addWidget(sign_in_button);
+    hbox3->addWidget(return_back);
     hbox3->setAlignment(Qt::AlignHCenter);
     vbox->addLayout(hbox3);
 

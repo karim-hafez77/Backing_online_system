@@ -26,7 +26,7 @@ public:
     QPushButton * show_button =new QPushButton("Show");
     QPushButton * redo_button =new QPushButton("Redo Transaction");
     QPushButton * undo_button =new QPushButton("Undo Transaction");
-    QPushButton * return_to_main_window =new QPushButton("Return to main window");
+    QPushButton * logout =new QPushButton("logout");
 
     QTextEdit * t_deposit = new QTextEdit();
     QTextEdit * t_withdraw = new QTextEdit();

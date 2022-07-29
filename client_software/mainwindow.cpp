@@ -34,13 +34,13 @@ void MainWindow::connect_function()
     connect(cw->Transactions_button,SIGNAL(clicked()),this,SLOT(on_transaction_button_clicked()));
     connect(cw->Create_New_Account_button,SIGNAL(clicked()),this,SLOT(on_create_new_account_window_clicked()));
     connect(c->return_to_main_window,SIGNAL(clicked()),this,SLOT(on_return_to_main_window_button_create_clicked()));
-    connect(t->return_to_main_window,SIGNAL(clicked()),this,SLOT(on_return_to_main_window_button_transaction_clicked()));
+    connect(t->logout,SIGNAL(clicked()),this,SLOT(on_return_to_main_window_button_transaction_clicked()));
     connect(login2->sign_in_button,SIGNAL(clicked()),this,SLOT(on_login_button_clicked()));
-//    connect(c->submit_button,SIGNAL(clicked()),c,SLOT(read_data()));
     connect(c->submit_button,SIGNAL(clicked()),this,SLOT(on_submit_button_clicked()));
     connect(t->deposit_button,SIGNAL(clicked()),this,SLOT(on_deposit_button_clicked()));
     connect(t->withdraw_button,SIGNAL(clicked()),this,SLOT(on_withdraw_button_clicked()));
     connect(t->show_button,SIGNAL(clicked()),this,SLOT(on_show_button_clicked()));
+    connect(login2->return_back,SIGNAL(clicked()),this,SLOT(on_return_back_button_clicked()));
 
 
 
@@ -77,11 +77,20 @@ void MainWindow::on_return_to_main_window_button_transaction_clicked()
     t->t_deposit->clear();
     t->t_withdraw->clear();
     t->l_total_amount_of_money->setText("----------");
+    Serializer sel;
+    stringstream st_message;
+    string x=" ";
+    message_type message(logout_message,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
+
 }
 void MainWindow::on_login_button_clicked()
 {
     int account_id=login2->t_account_id->toPlainText().toInt();
-    string account_password_string=login2->t_password->toPlainText().toStdString();
+    login2->t_password->setEchoMode(QLineEdit::Normal);
+    string account_password_string=login2->t_password->displayText().toStdString();
+    login2->t_password->setEchoMode(QLineEdit::Password);
     login_info LI(account_id,account_password_string);
     Serializer sel;
     Deserializer dsel;
@@ -104,7 +113,6 @@ void MainWindow::on_login_button_clicked()
     else
     {
         login2->t_account_id->setText("error account not found");
-        login2->t_password->setText("error account not found");
     }
 
 }
@@ -242,4 +250,13 @@ void MainWindow::on_show_button_clicked()
     dsel.deserialize(data ,account_balance);
     t->l_total_amount_of_money->setText(QString::fromStdString(account_balance));
 
+}
+
+
+void MainWindow::on_return_back_button_clicked()
+{
+    login2->hide();
+    login2->t_account_id->clear();
+    login2->t_password->clear();
+    cw->show();
 }

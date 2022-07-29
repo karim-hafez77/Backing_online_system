@@ -28,8 +28,13 @@ set(PROJECT_SOURCES
         server_socket.cpp
         server_socket.h
         ../utility/serialization.hpp
-        ../utility/classes.cpp
-        ../utility/classes.hpp
+        ../utility/account.cpp
+        ../utility/account.hpp
+        ../utility/person.cpp
+        ../utility/person.hpp
+        ../utility/transaction.cpp
+        ../utility/transaction.hpp
+
 
 )
 

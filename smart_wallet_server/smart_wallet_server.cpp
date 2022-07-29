@@ -9,8 +9,6 @@ smart_wallet_server::smart_wallet_server(QWidget *parent)
     hbox1->addWidget(l_account_no_value);
     hbox1->setAlignment(Qt::AlignLeft);
     vbox_account_info->addLayout(hbox1);
-    Transactions_log->setReadOnly(1);
-    Transactions_log->setOverwriteMode(1);
 
     l_name->setFixedSize(label_SIZE);
     l_name_value->setFixedSize(label_SIZE);
@@ -46,7 +44,6 @@ smart_wallet_server::smart_wallet_server(QWidget *parent)
     hbox6->addWidget(l_total_amount_of_money_value);
     hbox6->setAlignment(Qt::AlignLeft);
     vbox_account_info->addLayout(hbox6);
-
 
     vbox_tracsaction->addWidget(Transactions_log);
 

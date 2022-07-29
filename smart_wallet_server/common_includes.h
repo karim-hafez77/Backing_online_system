@@ -15,9 +15,12 @@
 #include <mutex>
 #include <boost/asio.hpp>
 #include "../utility/serialization.hpp"
-#include "../utility/classes.hpp"
+#include "../utility/account.hpp"
+#include "../utility/person.hpp"
+#include "../utility/transaction.hpp"
 #include "vector"
 #include "smart_wallet_server.h"
+#include"QTextBrowser"
 
 const QSize label_SIZE = QSize(120, 28);
 const QSize text_SIZE = QSize(350, 28);

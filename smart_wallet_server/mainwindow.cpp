@@ -10,11 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     widget->setLayout(mainlayout);
     widget->show();
     setCentralWidget(widget);
-    person p("karim","123","address",23);
-    account a(p,"a");
-    a.account_id=123;
-    v1.push_back(a);
     create_server();
+    connect(this,SIGNAL(signal_logout()),this,SLOT(logout_handler()));
+    connect(this,SIGNAL(signal_login()),this,SLOT(login_handler()));
 
 
 }
@@ -22,6 +20,33 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::logout_handler()
+{
+
+    sws->Transactions_log->clear();
+    sws->l_account_no_value->clear();
+    sws->l_address_value->clear();
+    sws->l_national_id_value->clear();
+    sws->l_total_amount_of_money_value->clear();
+    sws->l_name_value->clear();
+    sws->l_age_value->clear();
+}
+
+void MainWindow::login_handler()
+{
+    auto account_transactions=accessed_account.get_transaction_list();
+    for(auto &x : account_transactions)
+        {
+        usleep(1000);
+        string op="operation : "+x.get_operation();
+        string money_value = "money value : " + std::to_string(x.get_amount_of_money());
+        sws->Transactions_log->append(QString::fromStdString(op));
+        sws->Transactions_log->append(QString::fromStdString(money_value));
+        sws->Transactions_log->append("-----------------------------------");
+
+        }
 }
 
 void MainWindow::create_server()
@@ -46,18 +71,20 @@ void MainWindow::create_server()
                     stringstream st;
                     stringstream st_message;
                     dsel.deserialize(data ,recived_message);
+
+
                     if(recived_message.message_name=="create_new_account")
                     {
                         st_message<<recived_message.message;
                         dsel.deserialize(st_message ,AD);
                         person p(AD.name,AD.national_id,AD.address,AD.age);
                         account a(p,AD.password);
-                        std::cout<<a.password;
-                        std::cout.flush();
                         v1.push_back(a);
-                        sel.serialize(st,a.account_id);
+                        sel.serialize(st,a.get_account_id());
                         s->send_data(st,new_socket);
                     }
+
+
                     else if(recived_message.message_name=="login_message")
                     {
                         st_message<<recived_message.message;
@@ -69,9 +96,9 @@ void MainWindow::create_server()
                         account result_account;
                         for(auto &x: v1)
                         {
-                            if(x.account_id==check_account_id)
+                            if(x.get_account_id()==check_account_id)
                             {
-                                if(x.password == check_account_password)
+                                if(x.get_password() == check_account_password)
                                 {
                                     check_result = true;
                                     result_account=x;
@@ -83,6 +110,7 @@ void MainWindow::create_server()
                         if(check_result)
                         {
                             access_account(result_account);
+
                         }
                     }
 
@@ -94,17 +122,15 @@ void MainWindow::create_server()
                         amount_of_money=trans.amount_of_money;
                         for (auto &x:v1)
                         {
-                            if(x.account_id==account_id)
+                            if(x.get_account_id()==account_id)
                             {
                                 x.deposit(amount_of_money);
-                                sws->l_total_amount_of_money_value->setText(QString::number(x.balance));
-                                string op="operation : "+x.transactions_list.front().operation;
-                                string money_value = "money value : " + std::to_string(x.transactions_list.back().amount_of_money);
+                                sws->l_total_amount_of_money_value->setText(QString::number(x.get_balance()));
+                                string op="operation : "+x.get_transaction_list().front().get_operation();
+                                string money_value = "money value : " + std::to_string(x.get_transaction_list().back().get_amount_of_money());
                                 sws->Transactions_log->append(QString::fromStdString(op));
                                 sws->Transactions_log->append(QString::fromStdString(money_value));
                                 sws->Transactions_log->append("-----------------------------------");
-
-
                             }
                         }
 
@@ -118,28 +144,27 @@ void MainWindow::create_server()
                         amount_of_money=trans.amount_of_money;
                         for (auto &x:v1)
                         {
-                            if(x.account_id==account_id)
+                            if(x.get_account_id()==account_id)
                             {
-                                if(x.balance>amount_of_money){
+//                                if(x.get_balance()>=amount_of_money)
+//                                {
                                 x.withdraw(amount_of_money);
-                                sws->Transactions_log->setText(" ");
-                                sws->l_total_amount_of_money_value->setText(QString::number(x.balance));
-                                string op="operation : "+x.transactions_list.back().operation;
-                                string money_value = "money value : " + std::to_string(x.transactions_list.back().amount_of_money);
-                                sws->Transactions_log->append(QString::fromStdString(op));
-                                sws->Transactions_log->append(QString::fromStdString(money_value));
-                                sws->Transactions_log->append("-----------------------------------");
+                                sws->l_total_amount_of_money_value->setText(QString::number(x.get_balance()));
+                                string op="operation : "+x.get_transaction_list().back().get_operation();
+                                string money_value = "money value : " + std::to_string(x.get_transaction_list().back().get_amount_of_money());
+                                if(x.get_transaction_list().back().get_operation()!="unavailable transaction")
+                                {
+                                    sws->Transactions_log->append(QString::fromStdString(op));
+                                    sws->Transactions_log->append(QString::fromStdString(money_value));
+                                    sws->Transactions_log->append("-----------------------------------");
                                 }
                                 else
                                 {
-                                    string op="unavailable operation";
                                     sws->Transactions_log->append(QString::fromStdString(op));
                                     sws->Transactions_log->append("-----------------------------------");
 
-//                                    sel.serialize(st,check_result);
-//                                    s->send_data(st,new_socket);
-
                                 }
+
                             }
                         }
 
@@ -152,7 +177,7 @@ void MainWindow::create_server()
                         int account_id=trans.account_id;
                         for (auto &x:v1)
                         {
-                            if(x.account_id==account_id)
+                            if(x.get_account_id()==account_id)
                             {
                                 string account_balance=std::to_string(x.show_account_balance());
 //                                s_transaction transaction1(x.account_id,x.balance);
@@ -165,6 +190,11 @@ void MainWindow::create_server()
 
                      }
 
+                    else if(recived_message.message_name=="logout_message")
+                    {
+                    emit signal_logout();
+                    }
+
 
                 }
             })->start();
@@ -173,20 +203,20 @@ void MainWindow::create_server()
 }
 
 void MainWindow::access_account(account a)
-{
-    std::cout<<"account id: "<<a.account_id<<endl;
-    std::cout.flush();
-    sws->l_account_no_value->setText(QString::number(a.account_id));
-    sws->l_age_value->setText(QString::number(a.p.age));
-    sws->l_name_value->setText( QString::fromStdString(a.p.name));
-    sws->l_national_id_value->setText( QString::fromStdString(a.p.national_id));
-    sws->l_total_amount_of_money_value->setText(QString::number(a.balance));
-    sws->l_address_value->setText(QString::fromStdString(a.p.address));
-    if(sws->Transactions_log->toPlainText()!="")
-  {sws->Transactions_log->setText(" ");
-    std::cout<<"xxxxxxx";
-    std::cout.flush();
-    }
+{    
+    emit signal_logout();
+    usleep(1000);
+    emit signal_login();
+    accessed_account=a;
+    sws->l_account_no_value->setText(QString::number(a.get_account_id()));
+    sws->l_age_value->setText(QString::number(a.get_account_owner().get_age()));
+    sws->l_name_value->setText( QString::fromStdString(a.get_account_owner().get_name()));
+    sws->l_national_id_value->setText( QString::fromStdString(a.get_account_owner().get_id()));
+    sws->l_total_amount_of_money_value->setText(QString::number(a.get_balance()));
+    sws->l_address_value->setText(QString::fromStdString(a.get_account_owner().get_address()));
+
+
+
 
 }
 

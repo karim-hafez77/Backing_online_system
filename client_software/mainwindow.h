@@ -40,7 +40,7 @@ private slots:
     void on_deposit_button_clicked();
     void on_withdraw_button_clicked();
     void on_show_button_clicked();
-
+    void on_return_back_button_clicked();
 
 
 private:
@@ -60,7 +60,7 @@ private:
     string withdraw_message ="withdraw_message";
     string deposit_message ="deposit_message";
     string show_account_balance ="show_account_balance";
-
+    string logout_message="logout_message";
 
 
 };

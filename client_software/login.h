@@ -24,11 +24,15 @@ public:
     QHBoxLayout * hbox2=new QHBoxLayout;
     QHBoxLayout * hbox3=new QHBoxLayout;
     QHBoxLayout * hbox4=new QHBoxLayout;
+    QHBoxLayout * hbox5=new QHBoxLayout;
+
 
     QPushButton * sign_in_button =new QPushButton("Login");
+    QPushButton * return_back =new QPushButton("return");
+
 
     QTextEdit * t_account_id = new QTextEdit();
-    QTextEdit * t_password = new QTextEdit();
+    QLineEdit * t_password = new QLineEdit();
     bool t=true;
 
 //    t_account_id->setPlaceholderText("awq");

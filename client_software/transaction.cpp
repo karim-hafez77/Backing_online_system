@@ -45,7 +45,7 @@ transaction::transaction(QWidget *parent)
     undo_button->setFixedSize(button_SIZE);
     hbox5->addWidget(redo_button);
     hbox5->addWidget(undo_button);
-    hbox5->addWidget(return_to_main_window);
+    hbox5->addWidget(logout);
     hbox5->setAlignment(Qt::AlignRight);
     vbox->addLayout(hbox5);
 

@@ -25,9 +25,18 @@ public:
     void create_server();
     void access_account(account a);
 
+private slots:
+    void logout_handler();
+    void login_handler();
 
+signals:
+    void signal_logout();
+    void signal_login();
 
 private:
     Ui::MainWindow *ui;
+    account accessed_account;
+
+
 };
 #endif // MAINWINDOW_H

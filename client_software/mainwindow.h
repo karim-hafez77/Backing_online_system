@@ -59,6 +59,7 @@ private:
     string login_message ="login_message";
     string withdraw_message ="withdraw_message";
     string deposit_message ="deposit_message";
+    string show_account_balance ="show_account_balance";
 
 
 

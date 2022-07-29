@@ -50,6 +50,8 @@ void MainWindow::on_transaction_button_clicked()
 {
     cw->hide();
     login2->show();
+    login2->t_account_id->clear();
+    login2->t_password->clear();
 }
 void MainWindow::on_create_new_account_window_clicked()
 {
@@ -59,6 +61,12 @@ void MainWindow::on_create_new_account_window_clicked()
 void MainWindow::on_return_to_main_window_button_create_clicked()
 {
     c->hide();
+    c->t_address->clear();
+    c->t_age->clear();
+    c->t_confirm_password->clear();
+    c->t_id->clear();
+    c->t_name->clear();
+    c->t_password->clear();
     cw->show();
 
 }
@@ -66,6 +74,9 @@ void MainWindow::on_return_to_main_window_button_transaction_clicked()
 {
     t->hide();
     cw->show();
+    t->t_deposit->clear();
+    t->t_withdraw->clear();
+    t->l_total_amount_of_money->setText("----------");
 }
 void MainWindow::on_login_button_clicked()
 {
@@ -200,9 +211,35 @@ void MainWindow::on_deposit_button_clicked()
 }
 void MainWindow::on_withdraw_button_clicked()
 {
-
+    float input_amount=t->t_withdraw->toPlainText().toFloat();
+    int accessed_account_id=t->l_account_id->text().toInt();
+    s_transaction trans(accessed_account_id,input_amount);
+    Serializer sel;
+    Deserializer dsel;
+    stringstream st_stransaction;
+    stringstream st_message;
+    sel.serialize(st_stransaction,trans);
+    string x=st_stransaction.str();
+    message_type message(withdraw_message,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
 }
 void MainWindow::on_show_button_clicked()
 {
+    int accessed_account_id=t->l_account_id->text().toInt();
+    s_transaction trans(accessed_account_id,0);
+    Serializer sel;
+    Deserializer dsel;
+    stringstream st_stransaction;
+    stringstream st_message;
+    sel.serialize(st_stransaction,trans);
+    string x=st_stransaction.str();
+    message_type message(show_account_balance,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
+    auto data =socket1->recieve_data();
+    string account_balance;
+    dsel.deserialize(data ,account_balance);
+    t->l_total_amount_of_money->setText(QString::fromStdString(account_balance));
 
 }

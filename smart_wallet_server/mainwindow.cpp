@@ -92,20 +92,74 @@ void MainWindow::create_server()
                         dsel.deserialize(st_message ,trans);
                         int account_id=trans.account_id;
                         amount_of_money=trans.amount_of_money;
-                        std::cout<<"account id : "<<account_id<<endl;
-                        std::cout.flush();
-                        std::cout<<"amount : "<<amount_of_money<<endl;
-                        std::cout.flush();
-
                         for (auto &x:v1)
                         {
                             if(x.account_id==account_id)
                             {
-                                x.balance+=amount_of_money;
-//                                x.deposit(amount_of_money);
-                                std::cout<<"x balance : "<<x.balance<<endl;
-                                std::cout.flush();
+                                x.deposit(amount_of_money);
                                 sws->l_total_amount_of_money_value->setText(QString::number(x.balance));
+                                string op="operation : "+x.transactions_list.front().operation;
+                                string money_value = "money value : " + std::to_string(x.transactions_list.back().amount_of_money);
+                                sws->Transactions_log->append(QString::fromStdString(op));
+                                sws->Transactions_log->append(QString::fromStdString(money_value));
+                                sws->Transactions_log->append("-----------------------------------");
+
+
+                            }
+                        }
+
+                     }
+
+                    else if(recived_message.message_name=="withdraw_message")
+                    {
+                        st_message<<recived_message.message;
+                        dsel.deserialize(st_message ,trans);
+                        int account_id=trans.account_id;
+                        amount_of_money=trans.amount_of_money;
+                        for (auto &x:v1)
+                        {
+                            if(x.account_id==account_id)
+                            {
+                                if(x.balance>amount_of_money){
+                                x.withdraw(amount_of_money);
+                                sws->Transactions_log->setText(" ");
+                                sws->l_total_amount_of_money_value->setText(QString::number(x.balance));
+                                string op="operation : "+x.transactions_list.back().operation;
+                                string money_value = "money value : " + std::to_string(x.transactions_list.back().amount_of_money);
+                                sws->Transactions_log->append(QString::fromStdString(op));
+                                sws->Transactions_log->append(QString::fromStdString(money_value));
+                                sws->Transactions_log->append("-----------------------------------");
+                                }
+                                else
+                                {
+                                    string op="unavailable operation";
+                                    sws->Transactions_log->append(QString::fromStdString(op));
+                                    sws->Transactions_log->append("-----------------------------------");
+
+//                                    sel.serialize(st,check_result);
+//                                    s->send_data(st,new_socket);
+
+                                }
+                            }
+                        }
+
+                     }
+
+                    else if(recived_message.message_name=="show_account_balance")
+                    {
+                        st_message<<recived_message.message;
+                        dsel.deserialize(st_message ,trans);
+                        int account_id=trans.account_id;
+                        for (auto &x:v1)
+                        {
+                            if(x.account_id==account_id)
+                            {
+                                string account_balance=std::to_string(x.show_account_balance());
+//                                s_transaction transaction1(x.account_id,x.balance);
+                                Serializer sel2;
+                                sel2.serialize(st,account_balance);
+                                s->send_data(st,new_socket);
+//                                sws->l_total_amount_of_money_value->setText(QString::number());
                             }
                         }
 
@@ -128,6 +182,11 @@ void MainWindow::access_account(account a)
     sws->l_national_id_value->setText( QString::fromStdString(a.p.national_id));
     sws->l_total_amount_of_money_value->setText(QString::number(a.balance));
     sws->l_address_value->setText(QString::fromStdString(a.p.address));
+    if(sws->Transactions_log->toPlainText()!="")
+  {sws->Transactions_log->setText(" ");
+    std::cout<<"xxxxxxx";
+    std::cout.flush();
+    }
 
 }
 

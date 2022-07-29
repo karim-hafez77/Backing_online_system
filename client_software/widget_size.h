@@ -110,4 +110,5 @@ struct s_transaction
                         }
                         friend class boost::serialization::access;
                     };
+
 #endif // WIDGET_SIZE_H

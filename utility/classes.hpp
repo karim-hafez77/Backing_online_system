@@ -3,7 +3,17 @@
 #include <cstdlib>
 #include <time.h>
 #include "string"
+#include <vector>
 using namespace std;
+
+struct transactions
+{
+string operation;
+float amount_of_money;
+transactions(string input_operation , float input_amout_of_money):operation(input_operation),amount_of_money(input_amout_of_money)
+{}
+};
+
 
 class person
 {
@@ -29,6 +39,7 @@ public:
     int account_id;
     float balance=0;
     string password;
+    vector<transactions>transactions_list;
     account();
     account(person input_person,string input_password);
     void deposit(float input_amount);

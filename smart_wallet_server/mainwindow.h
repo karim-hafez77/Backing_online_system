@@ -28,7 +28,6 @@ public:
 private slots:
     void logout_handler();
     void login_handler();
-
 signals:
     void signal_logout();
     void signal_login();

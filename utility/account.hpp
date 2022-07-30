@@ -13,7 +13,7 @@ using namespace std;
 class account
 {
 private:
-    person p;
+    person account_owner;
     int account_id;
     float balance = 0;
     string password;
@@ -31,4 +31,5 @@ public:
     string get_password();
     vector<transactions> get_transaction_list();
     ~account();
+
 };

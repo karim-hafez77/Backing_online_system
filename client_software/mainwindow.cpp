@@ -202,35 +202,64 @@ void MainWindow::send()
 
 void MainWindow::on_deposit_button_clicked()
 {
-    float input_amount=t->t_deposit->toPlainText().toFloat();
-    int accessed_account_id=t->l_account_id->text().toInt();
-    s_transaction trans(accessed_account_id,input_amount);
-    Serializer sel;
-    Deserializer dsel;
-    stringstream st_stransaction;
-    stringstream st_message;
-    sel.serialize(st_stransaction,trans);
-    string x=st_stransaction.str();
-    message_type message(deposit_message,x);
-    sel.serialize(st_message,message);
-    socket1->send_data(st_message);
+    bool flag=true;
+    QString amount_check=t->t_deposit->toPlainText();
+    for(auto &x:amount_check)
+    {
+        if((x<"0")||(x>"9"))
+        {flag=false;}
+    }
+        if(flag)
+        {
+            float input_amount=t->t_deposit->toPlainText().toFloat();
+            int accessed_account_id=t->l_account_id->text().toInt();
+            s_transaction trans(accessed_account_id,input_amount);
+            Serializer sel;
+            Deserializer dsel;
+            stringstream st_stransaction;
+            stringstream st_message;
+            sel.serialize(st_stransaction,trans);
+            string x=st_stransaction.str();
+            message_type message(deposit_message,x);
+            sel.serialize(st_message,message);
+            socket1->send_data(st_message);
+        }
+        else
+            t->t_deposit->setText("error");
+
+
 
 
 }
 void MainWindow::on_withdraw_button_clicked()
 {
-    float input_amount=t->t_withdraw->toPlainText().toFloat();
-    int accessed_account_id=t->l_account_id->text().toInt();
-    s_transaction trans(accessed_account_id,input_amount);
-    Serializer sel;
-    Deserializer dsel;
-    stringstream st_stransaction;
-    stringstream st_message;
-    sel.serialize(st_stransaction,trans);
-    string x=st_stransaction.str();
-    message_type message(withdraw_message,x);
-    sel.serialize(st_message,message);
-    socket1->send_data(st_message);
+    bool flag=true;
+    QString amount_check=t->t_withdraw->toPlainText();
+    for(auto &x:amount_check)
+    {
+        if((x<"0")||(x>"9"))
+        {flag=false;}
+    }
+        if(flag)
+        {
+            float input_amount=t->t_withdraw->toPlainText().toFloat();
+            int accessed_account_id=t->l_account_id->text().toInt();
+            s_transaction trans(accessed_account_id,input_amount);
+            Serializer sel;
+            Deserializer dsel;
+            stringstream st_stransaction;
+            stringstream st_message;
+            sel.serialize(st_stransaction,trans);
+            string x=st_stransaction.str();
+            message_type message(withdraw_message,x);
+            sel.serialize(st_message,message);
+            socket1->send_data(st_message);
+        }
+        else
+            t->t_withdraw->setText("error");
+
+
+
 }
 void MainWindow::on_show_button_clicked()
 {
@@ -259,4 +288,13 @@ void MainWindow::on_return_back_button_clicked()
     login2->t_account_id->clear();
     login2->t_password->clear();
     cw->show();
+}
+void MainWindow::on_undo_transaction_button_clicked()
+{
+    Serializer sel;
+    stringstream st_message;
+    string x="u";
+    message_type message(undo_transaction,x);
+    sel.serialize(st_message,message);
+    socket1->send_data(st_message);
 }

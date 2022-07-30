@@ -41,6 +41,7 @@ private slots:
     void on_withdraw_button_clicked();
     void on_show_button_clicked();
     void on_return_back_button_clicked();
+    void on_undo_transaction_button_clicked();
 
 
 private:
@@ -61,6 +62,7 @@ private:
     string deposit_message ="deposit_message";
     string show_account_balance ="show_account_balance";
     string logout_message="logout_message";
+    string undo_transaction="undo_transaction";
 
 
 };

@@ -22,6 +22,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
 void MainWindow::logout_handler()
 {
 
@@ -146,8 +148,6 @@ void MainWindow::create_server()
                         {
                             if(x.get_account_id()==account_id)
                             {
-//                                if(x.get_balance()>=amount_of_money)
-//                                {
                                 x.withdraw(amount_of_money);
                                 sws->l_total_amount_of_money_value->setText(QString::number(x.get_balance()));
                                 string op="operation : "+x.get_transaction_list().back().get_operation();
@@ -192,7 +192,7 @@ void MainWindow::create_server()
 
                     else if(recived_message.message_name=="logout_message")
                     {
-                    emit signal_logout();
+                        emit signal_logout();
                     }
 
 
